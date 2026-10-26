@@ -27,11 +27,12 @@
           Wypełnij powyższe pole.
         </div>
 
-        <ul class="list-group mt-3">
+        <ul class="list-group mt-3" v-if="tasks.length">
           <task-simple
             v-for="task in tasks"
             :key="task.id"
             :task="task"
+            :remove-task="removeTask"
           ></task-simple>
         </ul>
       </div>
@@ -68,6 +69,9 @@ export default {
       } else {
         this.showTaskNameError = true;
       }
+    },
+    removeTask(id) {
+      this.tasks = this.tasks.filter((task) => task.id !== id);
     },
   },
   mounted() {
