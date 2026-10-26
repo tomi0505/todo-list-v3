@@ -1,5 +1,5 @@
 <template>
-  <div class="container mt-5">
+  <div class="container my-5">
     <div class="row justify-content-center">
       <div class="col-6">
         <div class="input-group">
@@ -21,6 +21,10 @@
           >
             Dodaj
           </button>
+        </div>
+
+        <div class="mt-1 small text-danger" v-show="showTaskNameError">
+          Wypełnij powyższe pole.
         </div>
 
         <ul class="list-group mt-3">
@@ -45,19 +49,25 @@ export default {
   data() {
     return {
       taskName: "",
+      showTaskNameError: false,
       tasks: [],
     };
   },
   methods: {
     addTask() {
-      const task = {
-        id: crypto.randomUUID(),
-        taskName: this.taskName,
-      };
+      if (this.taskName.trim() !== "") {
+        const task = {
+          id: crypto.randomUUID(),
+          taskName: this.taskName,
+        };
 
-      this.tasks.push(task);
-      this.taskName = "";
-      this.$refs.addTaskInput.focus();
+        this.tasks.push(task);
+        this.showTaskNameError = false;
+        this.taskName = "";
+        this.$refs.addTaskInput.focus();
+      } else {
+        this.showTaskNameError = true;
+      }
     },
   },
   mounted() {
